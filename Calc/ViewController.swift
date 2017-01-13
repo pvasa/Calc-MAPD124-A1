@@ -10,12 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    /*override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
+    /*override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }*/
@@ -26,6 +21,12 @@ class ViewController: UIViewController {
     var firstOperand: String? = nil
     var secondOperand: String? = nil
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        display.minimumScaleFactor = 10/UIFont.labelFontSize
+        display.adjustsFontSizeToFitWidth = true
+    }
+    
     @IBAction func digitTouched(_ sender: UIButton) {
         if (display.text == "0") {
             display.text = sender.currentTitle!
@@ -33,21 +34,34 @@ class ViewController: UIViewController {
         else {
             display.text = display.text! + sender.currentTitle!
         }
+        if (currentOperator == nil) {
+            firstOperand = display.text
+        } else {
+            secondOperand = display.text!.components(separatedBy: currentOperator!)[1]
+        }
     }
     
     @IBAction func operatorTouched(_ sender: UIButton) {
-        if (currentOperator == nil) {
-            currentOperator = "\(sender.currentTitle!)"
-            display.text = display.text! + currentOperator!
+        if (firstOperand == nil) {return}
+        if (secondOperand == nil) {
+            if (currentOperator == nil) {
+                currentOperator = sender.currentTitle!
+                display.text = display.text! + currentOperator!
+            } else {
+                display.text = display.text!.replacingOccurrences(of: currentOperator!, with: sender.currentTitle!)
+                currentOperator = sender.currentTitle!
+            }
         } else {
-            display.text = display.text!.replacingOccurrences(of: currentOperator!, with: "\(sender.currentTitle!)")
-            currentOperator = "\(sender.currentTitle!)"
+            firstOperand = String(format:"%.4f", calculate(firstNumber: Double(firstOperand!)!, secondNumber: Double(secondOperand!)!, op: currentOperator!))
+            secondOperand = nil
+            currentOperator = sender.currentTitle!
+            display.text = firstOperand! + currentOperator!
         }
     }
     
     @IBAction func equalTouched(_ sender: UIButton) {
         let operands = display.text!.components(separatedBy: currentOperator!)
-        display.text = "\(calculate(firstNumber: Double(operands[0])!, secondNumber: Double(operands[1])!, op: currentOperator!))"
+        display.text = String(format:"%.4f", calculate(firstNumber: Double(operands[0])!, secondNumber: Double(operands[1])!, op: currentOperator!))
     }
     
     @IBAction func acTouched(_ sender: UIButton) {
