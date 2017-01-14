@@ -9,11 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    /*override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }*/
     
     @IBOutlet weak var display: UILabel!
     
@@ -23,7 +18,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        display.minimumScaleFactor = 10/UIFont.labelFontSize
+        self.view.backgroundColor = UIColor(red: 75/255.0, green: 75/255.0, blue: 75/255.0, alpha: 1.0)
+        display.minimumScaleFactor = 4/UIFont.labelFontSize
         display.adjustsFontSizeToFitWidth = true
     }
     
@@ -31,11 +27,13 @@ class ViewController: UIViewController {
         if (display.text == "0") {
             display.text = sender.currentTitle!
         }
+        else if (sender.currentTitle! == "." && firstOperand != nil && currentOperator == nil && firstOperand!.contains(".")) {return}
+        else if (sender.currentTitle! == "." && secondOperand != nil && secondOperand!.contains(".")) {return}
         else {
             display.text = display.text! + sender.currentTitle!
         }
         if (currentOperator == nil) {
-            firstOperand = display.text
+            firstOperand = display.text!
         } else {
             secondOperand = display.text!.components(separatedBy: currentOperator!)[1]
         }
@@ -46,13 +44,19 @@ class ViewController: UIViewController {
         if (secondOperand == nil) {
             if (currentOperator == nil) {
                 currentOperator = sender.currentTitle!
-                display.text = display.text! + currentOperator!
+                if (currentOperator! == "√") {
+                    firstOperand = "\(calculate(firstNumber: Double(firstOperand!)!, secondNumber: 0, op: currentOperator!))"
+                    currentOperator = nil
+                    display.text = firstOperand!
+                } else {
+                    display.text = display.text! + currentOperator!
+                }
             } else {
                 display.text = display.text!.replacingOccurrences(of: currentOperator!, with: sender.currentTitle!)
                 currentOperator = sender.currentTitle!
             }
         } else {
-            firstOperand = String(format:"%.4f", calculate(firstNumber: Double(firstOperand!)!, secondNumber: Double(secondOperand!)!, op: currentOperator!))
+            firstOperand = "\(calculate(firstNumber: Double(firstOperand!)!, secondNumber: Double(secondOperand!)!, op: currentOperator!))"
             secondOperand = nil
             currentOperator = sender.currentTitle!
             display.text = firstOperand! + currentOperator!
@@ -60,8 +64,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func equalTouched(_ sender: UIButton) {
-        let operands = display.text!.components(separatedBy: currentOperator!)
-        display.text = String(format:"%.4f", calculate(firstNumber: Double(operands[0])!, secondNumber: Double(operands[1])!, op: currentOperator!))
+        if (firstOperand == nil || currentOperator == nil || secondOperand == nil) {return}
+        firstOperand = "\(calculate(firstNumber: Double(firstOperand!)!, secondNumber: Double(secondOperand!)!, op: currentOperator!))"
+        currentOperator = nil
+        secondOperand = nil
+        display.text = firstOperand
     }
     
     @IBAction func acTouched(_ sender: UIButton) {
@@ -77,10 +84,14 @@ class ViewController: UIViewController {
             return firstNumber + secondNumber
         case "-":
             return firstNumber - secondNumber
-        case "x":
+        case "×":
             return firstNumber * secondNumber
-        case "/":
+        case "÷":
             return firstNumber / secondNumber
+        case "%":
+            return firstNumber.truncatingRemainder(dividingBy: secondNumber)
+        case "√":
+            return sqrt(firstNumber)
         default:
             return 0
         }
