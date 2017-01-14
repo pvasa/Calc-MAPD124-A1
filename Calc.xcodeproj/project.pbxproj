@@ -12,6 +12,7 @@
 		9434C2C41E26C72F00D646C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9434C2C21E26C72F00D646C7 /* Main.storyboard */; };
 		9434C2C61E26C72F00D646C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9434C2C51E26C72F00D646C7 /* Assets.xcassets */; };
 		9434C2C91E26C72F00D646C7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9434C2C71E26C72F00D646C7 /* LaunchScreen.storyboard */; };
+		94C73E231E2AEF22003B3B34 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94C73E221E2AEF22003B3B34 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		9434C2C51E26C72F00D646C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9434C2C81E26C72F00D646C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9434C2CA1E26C72F00D646C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94C73E221E2AEF22003B3B34 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 		9434C2B21E26C72E00D646C7 = {
 			isa = PBXGroup;
 			children = (
+				94C73E221E2AEF22003B3B34 /* Default-568h@2x.png */,
 				9434C2BD1E26C72F00D646C7 /* Calc */,
 				9434C2BC1E26C72F00D646C7 /* Products */,
 			);
@@ -125,6 +128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9434C2C91E26C72F00D646C7 /* LaunchScreen.storyboard in Resources */,
+				94C73E231E2AEF22003B3B34 /* Default-568h@2x.png in Resources */,
 				9434C2C61E26C72F00D646C7 /* Assets.xcassets in Resources */,
 				9434C2C41E26C72F00D646C7 /* Main.storyboard in Resources */,
 			);
@@ -302,6 +306,7 @@
 				9434C2CF1E26C72F00D646C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

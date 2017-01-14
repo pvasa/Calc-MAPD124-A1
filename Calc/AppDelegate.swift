@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Calc
+//  Calc - Simple calculator for iOS
 //
 //  Created by Ryan V on 2017-01-11.
 //  Copyright © 2017 Matrians. All rights reserved.

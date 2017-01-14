@@ -1,37 +1,44 @@
 //
 //  ViewController.swift
-//  Calc
+//  Calc - Simple calculator for iOS
 //
 //  Created by Ryan V on 2017-01-11.
+//  Edited by Ryan V on 2017-01-14.
 //  Copyright © 2017 Matrians. All rights reserved.
 //
 
 import UIKit
 
+// View controller for Main storyboard
 class ViewController: UIViewController {
     
-    @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var display: UILabel! // Label for displaying stuff
     
-    var currentOperator: String? = nil
-    var firstOperand: String? = nil
-    var secondOperand: String? = nil
+    var currentOperator: String? = nil // Currently selected operator by user
+    var firstOperand: String? = nil // The first operand
+    var secondOperand: String? = nil // The second operand
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Set background color of the view to make borders and sides match color of the display
         self.view.backgroundColor = UIColor(red: 75/255.0, green: 75/255.0, blue: 75/255.0, alpha: 1.0)
         display.minimumScaleFactor = 4/UIFont.labelFontSize
         display.adjustsFontSizeToFitWidth = true
     }
     
+    // Called when any of the digits (including ".") is touched
     @IBAction func digitTouched(_ sender: UIButton) {
         if (display.text == "0") {
             display.text = sender.currentTitle!
         }
+            
+        // Don't allow multiple dots in single operand
         else if (sender.currentTitle! == "." && firstOperand != nil && currentOperator == nil && firstOperand!.contains(".")) {return}
         else if (sender.currentTitle! == "." && secondOperand != nil && secondOperand!.contains(".")) {return}
         else {
             display.text = display.text! + sender.currentTitle!
         }
+        // If operator not set, update first operand else, update second operand
         if (currentOperator == nil) {
             firstOperand = display.text!
         } else {
@@ -39,9 +46,11 @@ class ViewController: UIViewController {
         }
     }
     
+    // Called when any of the operators is touched
     @IBAction func operatorTouched(_ sender: UIButton) {
-        if (firstOperand == nil) {return}
+        if (firstOperand == nil) {return} // Cannot select operator until first operand is nil
         if (secondOperand == nil) {
+            // If second operand is nil, either do sqrt or add selected operator to display
             if (currentOperator == nil) {
                 currentOperator = sender.currentTitle!
                 if (currentOperator! == "√") {
@@ -55,6 +64,7 @@ class ViewController: UIViewController {
                 display.text = display.text!.replacingOccurrences(of: currentOperator!, with: sender.currentTitle!)
                 currentOperator = sender.currentTitle!
             }
+        // If all is set, do calculation and set answer as first operand, and add new selected operator to that
         } else {
             firstOperand = "\(calculate(firstNumber: Double(firstOperand!)!, secondNumber: Double(secondOperand!)!, op: currentOperator!))"
             secondOperand = nil
@@ -63,6 +73,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // Called when "=" is touched
     @IBAction func equalTouched(_ sender: UIButton) {
         if (firstOperand == nil || currentOperator == nil || secondOperand == nil) {return}
         firstOperand = "\(calculate(firstNumber: Double(firstOperand!)!, secondNumber: Double(secondOperand!)!, op: currentOperator!))"
@@ -71,6 +82,7 @@ class ViewController: UIViewController {
         display.text = firstOperand
     }
     
+    // Called when "AC" is touched - reset display and nil all variables
     @IBAction func acTouched(_ sender: UIButton) {
         display.text = "0"
         currentOperator = nil
@@ -78,6 +90,7 @@ class ViewController: UIViewController {
         secondOperand = nil
     }
     
+    // Applies the passed operator to both operands and returns answer float value
     func calculate(firstNumber: Double, secondNumber: Double, op: String) -> Double {
         switch op {
         case "+":
