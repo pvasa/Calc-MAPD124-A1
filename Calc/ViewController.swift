@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  Calc - Simple calculator for iOS
 //
-//  Created by Ryan V on 2017-01-11.
-//  Edited by Ryan V on 2017-01-14.
+//  Created by Priyank Vasa on 2017-01-11.
+//  Edited by Priyank Vasa on 2017-01-14.
 //  Copyright © 2017 Matrians. All rights reserved.
 //
 
@@ -69,12 +69,19 @@ class ViewController: UIViewController {
             firstOperand = "\(calculate(firstNumber: Double(firstOperand!)!, secondNumber: Double(secondOperand!)!, op: currentOperator!))"
             secondOperand = nil
             currentOperator = sender.currentTitle!
-            display.text = firstOperand! + currentOperator!
+            if (currentOperator! == "√") {
+                firstOperand = "\(calculate(firstNumber: Double(firstOperand!)!, secondNumber: 0, op: currentOperator!))"
+                currentOperator = nil
+                display.text = firstOperand!
+            } else {
+                display.text = firstOperand! + currentOperator!
+            }
         }
     }
     
     // Called when "=" is touched
     @IBAction func equalTouched(_ sender: UIButton) {
+        // If either of first operand, second operand, and operator is nil do nothing,, else calculate
         if (firstOperand == nil || currentOperator == nil || secondOperand == nil) {return}
         firstOperand = "\(calculate(firstNumber: Double(firstOperand!)!, secondNumber: Double(secondOperand!)!, op: currentOperator!))"
         currentOperator = nil
@@ -94,17 +101,17 @@ class ViewController: UIViewController {
     func calculate(firstNumber: Double, secondNumber: Double, op: String) -> Double {
         switch op {
         case "+":
-            return firstNumber + secondNumber
+            return firstNumber + secondNumber // Adds
         case "-":
-            return firstNumber - secondNumber
+            return firstNumber - secondNumber // Subtracts
         case "×":
-            return firstNumber * secondNumber
+            return firstNumber * secondNumber // Multiplies
         case "÷":
-            return firstNumber / secondNumber
+            return firstNumber / secondNumber // Divides
         case "%":
-            return firstNumber.truncatingRemainder(dividingBy: secondNumber)
+            return firstNumber.truncatingRemainder(dividingBy: secondNumber) // Modulo
         case "√":
-            return sqrt(firstNumber)
+            return sqrt(firstNumber) // Square root
         default:
             return 0
         }
